@@ -1138,10 +1138,16 @@ function M.show_hidden_group()
     return
   end
   local groups = require("bufferline.groups")
-  local group = groups.get_by_id(buf.group)
-  if group.hidden then
-    groups.set_hidden(group.id, false)
+  local current_group = groups.get_by_id(buf.group)
+  if current_group.hidden then
+    groups.set_hidden(current_group.id, false)
   end
+  utils.for_each(state.tabs, function(tab)
+    local group = groups.get_by_id(tab.group)
+    if group and group.auto_close and group.id ~= current_group.id then
+      groups.set_hidden(group.id, true)
+    end
+  end)
 end
 
 ---@param arg_lead string
