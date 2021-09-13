@@ -1102,11 +1102,11 @@ local function setup_autocommands(config)
     })
   end
 
-  if config:enabled("groups") and options.groups.options.toggle_hidden_on_enter then
+  if config:enabled("groups") then
     table.insert(autocommands, {
       "BufEnter",
       "*",
-      "lua require'bufferline'.show_hidden_group()",
+      "lua require'bufferline'.handle_group_enter()",
     })
   end
 
@@ -1132,15 +1132,18 @@ function M.group_action(name, action)
   end
 end
 
-function M.show_hidden_group()
-  local _, buf = get_current_buf_index({ include_hidden = true })
+function M.handle_group_enter()
+  local options = require("bufferline.config").get("options")
+  local _, buf = get_current_buf_index()
   if not buf then
     return
   end
   local groups = require("bufferline.groups")
   local current_group = groups.get_by_id(buf.group)
-  if current_group.hidden then
-    groups.set_hidden(current_group.id, false)
+  if options.groups.options.toggle_hidden_on_enter then
+    if current_group.hidden then
+      groups.set_hidden(current_group.id, false)
+    end
   end
   utils.for_each(state.tabs, function(tab)
     local group = groups.get_by_id(tab.group)
