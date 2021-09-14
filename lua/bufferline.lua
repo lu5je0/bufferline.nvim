@@ -911,6 +911,13 @@ local function filter_invisible(list)
   end, list)
 end
 
+---Emit custom autocommand event
+---@param name string
+local function emit_event(name)
+  assert(name, "An event name is required to [emit_event]")
+  vim.cmd(fmt("doautocmd User BufferLine%s", name))
+end
+
 ---sort a list of tabviews using a sort function
 ---@param list TabView[]
 ---@return TabView[]
@@ -989,6 +996,9 @@ local function render(tab_views, tabpages, config)
   --- Store copies without focusable/hidden elements
   state.tabs = filter_invisible(tab_views)
   state.visible_tabs = filter_invisible(visible_tabs)
+  -- NOTE: the primary use case for this is so we can react to changes in the internal buffer state
+  --of this plugin e.g. to auto close groups on VimEnter which is too early
+  emit_event("BuffersSet")
 
   if marker.left_count > 0 then
     local icon = truncation_component(marker.left_count, left_trunc_icon, hl)
@@ -1104,6 +1114,11 @@ local function setup_autocommands(config)
 
   if config:enabled("groups") then
     table.insert(autocommands, {
+      "User BufferLineBuffersSet",
+      "++once",
+      "lua require'bufferline'.handle_group_enter()",
+    })
+    table.insert(autocommands, {
       "BufEnter",
       "*",
       "lua require'bufferline'.handle_group_enter()",
@@ -1134,7 +1149,7 @@ end
 
 function M.handle_group_enter()
   local options = require("bufferline.config").get("options")
-  local _, buf = get_current_buf_index()
+  local _, buf = get_current_buf_index({ include_hidden = true })
   if not buf then
     return
   end
