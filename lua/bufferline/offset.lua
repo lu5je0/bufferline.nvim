@@ -50,7 +50,11 @@ local function get_section_text(size, highlight, offset)
     text = string.rep(" ", left) .. text .. string.rep(" ", right)
   end
   -- ⏽  
-  return highlight .. text .. "⏽"
+  if vim.g.bufferline_separator then
+    return highlight .. text .. "⏽"
+  else
+    return highlight .. text
+  end
 end
 
 ---A heuristic to attempt to derive a windows background color from a winhighlight
