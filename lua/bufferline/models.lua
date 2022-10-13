@@ -126,7 +126,7 @@ function Buffer:new(buf)
   buf.extension = fn.fnamemodify(buf.path, ":e")
   local is_directory = fn.isdirectory(buf.path) > 0
   buf.icon, buf.icon_highlight = require("bufferline.utils").get_icon(buf, is_directory)
-  local name = "untitled"
+  local name = "[Untitled]"
   if buf.path and #buf.path > 0 then
     name = fn.fnamemodify(buf.path, ":t")
     name = is_directory and name .. "/" or name
