@@ -47,7 +47,7 @@ It was inspired by a screenshot of DOOM Emacs using [centaur tabs](https://githu
 
 - Configuration via lua functions for greater customization.
 
-#### Alternate styling
+#### Alternate styling 
 
 ![slanted tabs](https://user-images.githubusercontent.com/22454918/111992989-fec39b80-8b0d-11eb-851b-010641196a04.png)
 
