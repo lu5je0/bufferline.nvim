@@ -49,7 +49,7 @@ local function get_section_text(size, highlight, offset)
     end
     text = string.rep(" ", left) .. text .. string.rep(" ", right)
   end
-  -- ⏽  
+  -- ⏽ 󰃀 󰇅
   if vim.g.bufferline_separator then
     return highlight .. text .. "⏽"
   else

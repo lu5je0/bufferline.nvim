@@ -541,7 +541,7 @@ local function get_defaults()
       view = "default",
       numbers = "none",
       number_style = "superscript",
-      buffer_close_icon = "",
+      buffer_close_icon = "󰅖",
       modified_icon = "●",
       close_icon = "",
       close_command = "bdelete! %d",

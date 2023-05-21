@@ -207,7 +207,7 @@ require('bufferline').setup {
     -- and so changing this is NOT recommended, this is intended
     -- as an escape hatch for people who cannot bear it for whatever reason
     indicator_icon = '▎',
-    buffer_close_icon = '',
+    buffer_close_icon = '󰅖',
     modified_icon = '●',
     close_icon = '',
     left_trunc_marker = '',
@@ -661,7 +661,7 @@ custom_areas = {
     local hint = vim.lsp.diagnostic.get_count(0, [[Hint]])
 
     if error ~= 0 then
-      table.insert(result, {text = "  " .. error, guifg = "#EC5241"})
+      table.insert(result, {text = " 󰅚 " .. error, guifg = "#EC5241"})
     end
 
     if warning ~= 0 then
